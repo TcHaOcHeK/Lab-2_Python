@@ -31,7 +31,7 @@ select_page = InlineKeyboardMarkup(inline_keyboard=[
         ),
         InlineKeyboardButton(
             text='Посещаемость',
-            callback_data='page_visit'
+            callback_data = 'page_visit'
         )
     ]
 

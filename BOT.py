@@ -4,10 +4,10 @@ import dp
 from aiogram import Bot, Dispatcher, F
 import asyncio
 
-from core.handlers.basic import get_start, get_photo, Subject, Page, get_name, send_photo
+from core.handlers.basic import get_start, get_photo,  Page,  send_photo
 from aiogram.filters import Command, CommandStart
 from core.utils.commands import set_commands
-from core.handlers.callback import select_subject, select_page, db_read, db_read_only_grate
+from core.handlers.callback import select_subject, select_page
 from core.utils.states import Send
 
 token = '7064100380:AAEmYNxYe0s0aBlO2YpbpaL3fnBP99CNmv0'
@@ -34,19 +34,13 @@ async def start():
     dp.shutdown.register(stop_bot)
 
     dp.message.register(get_start, CommandStart())
+    dp.callback_query.register(select_subject, Send.sub, F.data.startswith('subject_'))
+
+    dp.message.register(Page, Send.name)
+    dp.callback_query.register(select_page, Send.page, F.data.startswith('page_'))
 
     dp.message.register(send_photo, Command(commands='sendphoto'))
     dp.message.register(get_photo, Send.photo, F.photo)
-
-    dp.message.register(Subject, Command(commands='subject'))
-    dp.callback_query.register(db_read, F.data.startswith('subject_'))
-
-    dp.message.register(Page, Send.name)
-    dp.callback_query.register(db_read_only_grate, F.data.startswith('page_'))
-    dp.message.register(get_name, Command(commands='name'))
-
-
-
 
 
     try:
