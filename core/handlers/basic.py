@@ -11,33 +11,33 @@ admin = 1024576085
 
 
 async def get_start(message: Message, bot: Bot, state: FSMContext):
-    await message.answer(f'Привет {message.from_user.first_name}.\nЭтот бот поможет узнать баллы и посещяемость студента на определенных дисциплинах \nВыберите дисциплину:', reply_markup = select_subject )
+    await message.answer(f'Привет {message.from_user.first_name}.'+
+                         '\nЭтот бот поможет узнать баллы и посещяемость студента на определенных дисциплинах'+
+                         '\nВыберите дисциплину:', reply_markup = select_subject )
     await state.set_state(Send.sub)
 
 
-
-
-
 async def Page(message: Message, bot: Bot, state: FSMContext):
-    await state.update_data(name=message.text)
-    await message.answer(f'Какие данные {message.text} вы хотите узнать? ')
-    await message.answer('Что хотите узнать?', reply_markup=select_page)
-    await state.set_state(Send.page)
+    df_orders = pd.read_excel(f'DB.xls', sheet_name='OPD', skiprows=0)
+    nameme =  message.text
 
+    row = df_orders[df_orders.isin([nameme]).any(axis=1)]
+    id_user = (row.to_string().split())[3]
+    print(nameme, "\n", row)
+    await state.update_data(name=id_user)
 
-
-
-
-async def db_read(call: CallbackQuery, bot: Bot):
-    page = call.data.split('_')[1]
-    df_orders = pd.read_excel(f'DB.xls', sheet_name = 'OPD', skiprows=0)
-    if page == 'visit':
-        await call.message.answer(f'{df_orders.iloc[4, 2]}%')
-        print(f'{df_orders.iloc[4, 2]}%')
+    if nameme in df_orders.values:
+        await message.answer(f'Какие данные {nameme} вы хотите узнать? ', reply_markup=select_page)
+        await state.set_state(Send.page)
     else:
-        await call.message.answer(f'{df_orders.iloc[4,1]} балл')
-        print(f'баллы по предмету: {df_orders.iloc[4,1]} ')
-    await call.answer()
+        await message.answer('Проверьте правильность ввода, и введите заново')
+
+
+
+
+
+
+
 
 async def send_photo(message: Message, bot: Bot, state: FSMContext):
     await message.answer(f'Скинь мне фото пожалуйста!')
