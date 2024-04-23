@@ -35,6 +35,7 @@ async def start():
 
     dp.message.register(get_start, CommandStart())
     dp.callback_query.register(select_subject, Send.sub, F.data.startswith('subject_'))
+    dp.callback_query.register(select_subject, F.data.startswith('subject_'))
 
     dp.message.register(Page, Send.name)
     dp.callback_query.register(select_page, Send.page, F.data.startswith('page_'))

@@ -27,11 +27,11 @@ select_page = InlineKeyboardMarkup(inline_keyboard=[
     [
         InlineKeyboardButton(
             text='Баллы',
-            callback_data = 'page_grate'
+            callback_data = 'page_1'
         ),
         InlineKeyboardButton(
             text='Посещаемость',
-            callback_data = 'page_visit'
+            callback_data = 'page_2'
         )
     ]
 
