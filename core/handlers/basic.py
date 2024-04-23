@@ -45,11 +45,11 @@ async def Page(message: Message, bot: Bot, state: FSMContext):
     id_user = (row.to_string().split())[3]
     print(nameme, "\n", row)
 
-
     if nameme in df_orders.values:
         await message.answer(f'Какие данные {nameme} вы хотите узнать? ', reply_markup=select_page)
         await state.set_state(Send.page)
         await state.update_data(name=id_user)
+
     else:
         await message.answer('Проверьте правильность ввода, и введите заново')
 

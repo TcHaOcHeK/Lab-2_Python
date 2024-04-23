@@ -21,9 +21,15 @@ async def select_page(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.update_data(page=page)
     data = await state.get_data()
     df_orders = pd.read_excel(f'DB.xlsx', sheet_name = data.get('sub'), skiprows=0)
-    await call.message.answer(f'{df_orders.iloc[int(data.get('name')), data.get('page')]}')
-        # print(f'{df_orders.iloc[int(data.get('name')), 2]}%')
+    dbData = df_orders.iloc[int(data.get('name')), data.get('page')]
 
+    if page == 1:
+        sendedData = f'Баллs: {dbData} '
+    else:
+        sendedData = f'{dbData}% посещаемости'
+
+    await call.message.answer(f'{sendedData}')
+    # print(f'{df_orders.iloc[int(data.get('name')), 2]}%')
 
     await call.answer()
 
