@@ -2,9 +2,13 @@
 Тищенко Тимофея Дмитриевича.
 
 Оповещение Администратора:
+
+
 ![photo_2024-04-26_13-32-42](https://github.com/TcHaOcHeK/Lab-2_Python/assets/160489385/65381364-7789-4cd8-8794-4c4e3190ff77)
 
 Пользовательский интерфейс:
+
+
 ![photo_2024-04-26_13-33-02](https://github.com/TcHaOcHeK/Lab-2_Python/assets/160489385/a458e5d2-f05a-45ad-9ef6-f4ebeb31e015)
 
 
