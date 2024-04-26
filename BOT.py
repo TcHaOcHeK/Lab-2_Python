@@ -4,7 +4,7 @@ import dp
 from aiogram import Bot, Dispatcher, F
 import asyncio
 
-from core.handlers.basic import get_start, get_photo,  Page,  send_photo
+from core.handlers.basic import get_start, get_photo,  Page,  send_photo, stopBD
 from aiogram.filters import Command, CommandStart
 from core.utils.commands import set_commands
 from core.handlers.callback import select_subject, select_page
@@ -42,6 +42,8 @@ async def start():
 
     dp.message.register(send_photo, Command(commands='sendphoto'))
     dp.message.register(get_photo, Send.photo, F.photo)
+
+    dp.message.register(stopBD, Command(commands='stop'))
 
 
     try:

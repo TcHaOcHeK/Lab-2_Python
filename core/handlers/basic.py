@@ -35,18 +35,23 @@ async def get_start(message: Message, bot: Bot, state: FSMContext):
     dbLoad()
 
 
+async def stopBD(message: Message, bot: Bot, state: FSMContext):
+    await message.answer(f'Вы узнали всё что хотели.\n Чтобы начать снова отпраьте команду /start')
+    await state.clear()
+
+
 async def Page(message: Message, bot: Bot, state: FSMContext):
     data = await state.get_data()
     df_orders = pd.read_excel(f'DB.xlsx', sheet_name=f'{data.get('sub')}', skiprows=0)
 
-    nameme = message.text.lower()
+    newName = message.text.lower()
 
-    row = df_orders[df_orders.isin([nameme]).any(axis=1)]
+    row = df_orders[df_orders.isin([newName]).any(axis=1)]
     id_user = (row.to_string().split())[3]
-    print(nameme, "\n", row)
-
-    if nameme in df_orders.values:
-        await message.answer(f'Какие данные {nameme} вы хотите узнать? ', reply_markup=select_page)
+    nameme = newName.split(" ")
+    print((nameme[0] + nameme[1]), "\n", row)
+    if (f'{nameme[0]} {nameme[1]}' in df_orders.values) or (f'{nameme[1]} {nameme[0]}' in df_orders.values):
+        await message.answer(f'Какие данные вы хотите узнать? ', reply_markup=select_page)
         await state.set_state(Send.page)
         await state.update_data(name=id_user)
 
@@ -60,7 +65,7 @@ async def Page(message: Message, bot: Bot, state: FSMContext):
 
 
 async def send_photo(message: Message, bot: Bot, state: FSMContext):
-    await message.answer(f'Скинь мне фото пожалуйста!')
+    await message.answer(f'Скинь мне фото, пожалуйста!')
     await state.set_state(Send.photo)
 
 
